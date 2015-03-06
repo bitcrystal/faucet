@@ -1,0 +1,17 @@
+./server.php
+./templates/footer.php
+./templates/servsidebar.php
+./templates/header.php
+./templates/sidebar.php
+./index.php
+./update/updateaddresses.php
+./update/updateroundltc.php
+./update/updatetotal.php
+./update/updateround.php
+./core/banned.php
+./core/wallet.php
+./core/config.php
+./core/dnsbl.php
+./core/functions.php
+./core/daily.php
+./submitted.php
