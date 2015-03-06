@@ -1,4 +1,4 @@
-litecoin faucet public release
+litecoin faucet public release rewritten to bitcrystal faucet and fixxed
 ------------------------------------------
 Forum Thread: http://forum.litecoin.net/index.php/topic,533.0.html
 this is the simplest version of it, other might get released in time
