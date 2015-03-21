@@ -107,7 +107,7 @@ function mnu_btn($link, $title, $preg = false)
 
 ?>
           </ul>
-<div class="pull-right" style="color: #fff; padding-top: 11px; font-size: 11px;">Blockcount: <?=number_format($derp["blocks"]);?> - Difficulty: <? echo $derp['difficulty'];?> - version <?=$derp[version]?> with <?=$derp["connections"]?> p2p nodes</div>
+<div class="pull-right" style="color: #fff; padding-top: 11px; font-size: 11px;">Blockcount: <?php echo number_format($derp["blocks"]);?> - Difficulty: <?php echo $derp['difficulty'];?> - version <?php echo $derp["version"]?> with <?php echo $derp["connections"]?> p2p nodes</div>
 </div>
        
       </div>

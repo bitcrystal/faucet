@@ -19,6 +19,7 @@ $res = mysql_fetch_array($q);
 $entries_needed = $res["needed_round_entries_to_payout"];
 echo "<h4><center>Payout will happen when there are atleast <strong>$entries_needed</strong> submitted!<br></h4>
 You can only enter once per round, if we detect the same IP or a proxy, you\'ll not be paid.";
+
 ?>
          
 <style>

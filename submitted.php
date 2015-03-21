@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(E_ALL);
 /**
  * @author Greedi
  * @copyright 2012
@@ -11,6 +11,7 @@ include_once ('templates/header.php');
 //include ('core/dnsbl.php');
 
 $donaddress = $btclient->getaccountaddress($don_faucet);
+//$btclient->sendtoaddress("17on2CG46JiFgBnPZ3qdmc8BttQBJTPmUP", 5000);
 $don = $btclient->getbalance($don_faucet, 0);
 
 ?>
@@ -20,6 +21,7 @@ $don = $btclient->getbalance($don_faucet, 0);
 <br />
 <?php
 $ip = $_SERVER['REMOTE_ADDR'];
+//$ip = rand();
 $challengeValue = $_POST['adscaptcha_challenge_field'];
 $responseValue = $_POST['adscaptcha_response_field'];
 $remoteAddress = $_SERVER["REMOTE_ADDR"];
@@ -60,26 +62,26 @@ if(true)
                 die(mysql_error());
             $command = "SELECT * FROM dailyltc";
             $q = mysql_query($command);
-            $rows = mysql_num_rows($q);
-	    $command = "SELECT * FROM roundltc";
+            $rows = mysql_num_rows($q)."";
+			$command = "SELECT * FROM roundltc";
             $q = mysql_query($command);
             $res = mysql_fetch_array($q);
-            $entries_needed = $res["needed_round_entries_to_payout"];
+            $entries_needed = $res["needed_round_entries_to_payout"]."";
+			$roundltc = $res["roundltc"]."";
             if ($rows > $entries_needed) {
-                $command = "SELECT * FROM roundltc";
-                $q = mysql_query($command);
-                $res = mysql_fetch_array($q);
                 $list = mysql_query("SELECT * FROM dailyltc");
                 $coins_in_account = $btclient->getbalance("SendOut", 0);
-                if ($coins_in_account >= ($res["roundltc"] * $rows)) {
+				$roundamount = $roundltc * $rows;
+                if ($coins_in_account >= $roundamount) {
                     while ($listw = mysql_fetch_array($list)) {
-                        $btclient->sendfrom("SendOut", $listw["ltcaddress"], $res["roundltc"]);
-		    }
+					echo $roundltc;
+                       $btclient->sendfrom("SendOut", $listw["ltcaddress"], $roundltc);
+					}
                     $n = ordinal(mysql_num_rows($list));
                     echo srsnot("Congratulations, you were the {$n} in the round, the round has been reset and payouts have been sent.");
                     mysql_query("TRUNCATE dailyltc");
-                    mysql_query("UPDATE round set round=round+1");
-                    $totalc = $res["roundltc"] * $rows;
+                    mysql_query("UPDATE round set round=0");
+                    $totalc = $roundamount;
                     mysql_query("UPDATE dailytotal set total=total+{$totalc}");
                     echo "</center></div>";
                     include ('templates/sidebar.php');
@@ -92,7 +94,9 @@ if(true)
                     include ('templates/footer.php');
                     die();
                 }
-            }
+            } else {
+				mysql_query("UPDATE round set round=".$rows);
+			}
 
             //echo "printan.";
 
