@@ -66,23 +66,29 @@ if(true)
 			$command = "SELECT * FROM roundltc";
             $q = mysql_query($command);
             $res = mysql_fetch_array($q);
-            $entries_needed = $res["needed_round_entries_to_payout"]."";
-			$roundltc = $res["roundltc"]."";
-            if ($rows > $entries_needed) {
+            $entries_needed = $res["needed_round_entries_to_payout"]+0;
+			$roundltc = $res["roundltc"]+0;
+            if ($rows > $entries_needed||true) {
                 $list = mysql_query("SELECT * FROM dailyltc");
-                $coins_in_account = $btclient->getbalance("SendOut", 0);
+                $coins_in_account = $btclient->getbalance($don_faucet, 0);
 				$roundamount = $roundltc * $rows;
                 if ($coins_in_account >= $roundamount) {
                     while ($listw = mysql_fetch_array($list)) {
-					echo $roundltc;
-                       $btclient->sendfrom("SendOut", $listw["ltcaddress"], $roundltc);
+						try
+						{
+							$btclient->sendfrom($don_faucet, $listw["ltcaddress"], $roundltc);
+						} catch (Exception $e)
+						{
+							echo $e->getMessage()."<br/>";
+						}
 					}
+					return;
                     $n = ordinal(mysql_num_rows($list));
                     echo srsnot("Congratulations, you were the {$n} in the round, the round has been reset and payouts have been sent.");
                     mysql_query("TRUNCATE dailyltc");
                     mysql_query("UPDATE round set round=0");
                     $totalc = $roundamount;
-                    mysql_query("UPDATE dailytotal set total=total+{$totalc}");
+                    mysql_query("UPDATE dailytotal set dailytotal=dailytotal+".$totalc);
                     echo "</center></div>";
                     include ('templates/sidebar.php');
                     include ('templates/footer.php');

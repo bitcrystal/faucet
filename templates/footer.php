@@ -3,7 +3,7 @@
       </div>
  
  <footer>
-<center><p style="font-size: 11px;">Donate to Faucet: <?=$btclient->getaccountaddress($don_faucet);?> (recv: <?=$btclient->getbalance($don_faucet,0)?> BTCRY)</p>
+<center><p style="font-size: 11px;">Donate to Faucet: <?php echo $btclient->getaccountaddress($don_faucet);?> (recv: <?php echo $btclient->getbalance($don_faucet,0)?> BTCRY)</p>
 <center><p>Made By Greedi &copy; 2012</p>
 	<p>fixxed buggs and changed to bitcrystal faucet By Bitcrystal Developers &copy; 2015</p>
 </footer>

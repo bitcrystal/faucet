@@ -1,14 +1,18 @@
 <?php
-$command = "SELECT * FROM roundltc,dailytotal,round";
+$command = "SELECT * FROM dailyltc";
 $q = mysql_query($command);
-$dltc = mysql_query("SELECT * FROM `dailyltc`");
-$rows = mysql_num_rows($q);
-$rows2 = mysql_num_rows($dltc);
-$i = 0;
-while ($i < $rows) {
-    $roundltc = mysql_result($q, $i, "roundltc");
-    $dailytotal = mysql_result($q, $i, "dailytotal");
-    $round = mysql_result($q, $i, "round");
-    $i++;
-    }
+$rows = mysql_num_rows($q)."";
+$dailyltc=$rows;
+$command = "SELECT * FROM roundltc";
+$q = mysql_query($command);
+$res = mysql_fetch_array($q);
+$roundltc=$res["roundltc"]."";
+$command = "SELECT * FROM dailytotal";
+$q = mysql_query($command);
+$res = mysql_fetch_array($q);
+$dailytotal=$res["dailytotal"]."";
+$command = "SELECT * FROM round";
+$q = mysql_query($command);
+$res = mysql_fetch_array($q);
+$round=$res["round"]."";
 ?>
