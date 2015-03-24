@@ -13,7 +13,6 @@ include_once ('templates/header.php');
 $donaddress = $btclient->getaccountaddress($don_faucet);
 //$btclient->sendtoaddress("17on2CG46JiFgBnPZ3qdmc8BttQBJTPmUP", 5000);
 $don = $btclient->getbalance($don_faucet, 0);
-
 ?>
 <div class="row">
 <div class="span10">
@@ -68,7 +67,7 @@ if(true)
             $res = mysql_fetch_array($q);
             $entries_needed = $res["needed_round_entries_to_payout"]+0;
 			$roundltc = $res["roundltc"]+0;
-            if ($rows > $entries_needed||true) {
+            if ($rows > $entries_needed) {
                 $list = mysql_query("SELECT * FROM dailyltc");
                 $coins_in_account = $btclient->getbalance($don_faucet, 0);
 				$roundamount = $roundltc * $rows;
@@ -77,12 +76,12 @@ if(true)
 						try
 						{
 							$btclient->sendfrom($don_faucet, $listw["ltcaddress"], $roundltc);
+							$btclient->move($don_faucet, "\"\"", $roundltc);
 						} catch (Exception $e)
 						{
 							echo $e->getMessage()."<br/>";
 						}
-					}
-					return;
+				}
                     $n = ordinal(mysql_num_rows($list));
                     echo srsnot("Congratulations, you were the {$n} in the round, the round has been reset and payouts have been sent.");
                     mysql_query("TRUNCATE dailyltc");
